@@ -23,18 +23,26 @@ public class UserService {
 
 
     public Integer addUser(User user){
-
         //Jut simply add the user to the Db and return the userId returned by the repository
-        return null;
+        userRepository.save(user);
+        return user.getId();
     }
 
     public Integer getAvailableCountOfWebSeriesViewable(Integer userId){
 
         //Return the count of all webSeries that a user can watch based on his ageLimit and subscriptionType
         //Hint: Take out all the Webseries from the WebRepository
-
-
-        return null;
+        User user=userRepository.findById(userId).get();
+        Subscription subscription=user.getSubscription();
+        SubscriptionType subscriptionType=subscription.getSubscriptionType();
+        List<WebSeries> webSeriesList=null;
+        if(subscriptionType==SubscriptionType.BASIC){
+            webSeriesList=webSeriesRepository.findAllWebSeriesBySubscription(subscriptionType);
+        }
+        else if(subscriptionType==SubscriptionType.PRO){
+            webSeriesList=webSeriesRepository.findAll();
+        }
+        return webSeriesList.size();
     }
 
 
