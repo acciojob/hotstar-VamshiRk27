@@ -13,4 +13,6 @@ public interface WebSeriesRepository extends JpaRepository<WebSeries,Integer> {
 
     WebSeries findBySeriesName(String seriesName);
 
+    @Query(value="select * from web_series w where w.subscriptionType=:subscriptionType",nativeQuery=true)
+    List<WebSeries> findAllWebSeriesBySubscription(SubscriptionType subscriptionType);
 }
