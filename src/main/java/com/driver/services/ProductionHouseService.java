@@ -18,15 +18,14 @@ public class ProductionHouseService {
 
     public Integer addProductionHouseToDb(ProductionHouseEntryDto productionHouseEntryDto){
         ProductionHouse existing=productionHouseRepository.findByName(productionHouseEntryDto.getName());
-        if(existing!=null){
-            return existing.getId();
+        int id=-1;
+        if(existing==null){
+            ProductionHouse productionHouse=new ProductionHouse(productionHouseEntryDto.getName());
+            productionHouse.setRatings(0);
+            productionHouseRepository.save(productionHouse);
+            id=productionHouse.getId();
         }
-
-        ProductionHouse productionHouse=new ProductionHouse(productionHouseEntryDto.getName());
-        productionHouse.setRatings(0);
-        productionHouseRepository.save(productionHouse);
-
-        return productionHouse.getId();
+        return id;
     }
 
 
